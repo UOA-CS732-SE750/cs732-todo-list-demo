@@ -23,3 +23,17 @@ button {
     background-color: color-mix(in srgb, black 30%, var(--button-color));
   }
 }
+
+input {
+  --input-color: rgb(87, 59, 148);
+  border: 2px solid transparent;
+  border-bottom: 2px solid var(--input-color);
+  outline: none;
+  padding: 5px 0 5px 10px;
+  font-size: large;
+
+  &:focus {
+    border: 2px solid var(--input-color);
+    border-radius: 4px;
+  }
+}

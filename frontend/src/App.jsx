@@ -4,9 +4,11 @@ import TodoList from "./components/TodoList";
 import styles from "./App.module.css";
 import NewTodoForm from "./components/NewTodoForm";
 import { v4 as uuid } from "uuid";
+import SearchBar from "./components/SearchBar";
 
 function App() {
   const [todos, setTodos] = useState(initialTodos);
+  const [searchString, setSearchString] = useState("");
 
   function handleTodoClicked(todo) {
     // console.log(todo);
@@ -36,6 +38,11 @@ function App() {
     setTodos(newTodos);
   }
 
+  const filteredTodos = todos.filter(
+    (todo) =>
+      searchString === "" || todo.description.toLowerCase().includes(searchString.toLowerCase())
+  );
+
   return (
     <>
       <nav className={styles.nav}>
@@ -43,8 +50,13 @@ function App() {
       </nav>
       <div className={styles.container}>
         <main>
+          <SearchBar
+            searchString={searchString}
+            onSearchStringChanged={(s) => setSearchString(s)}
+          />
+
           <TodoList
-            todos={todos}
+            todos={filteredTodos}
             onTodoClicked={handleTodoClicked}
             onTodoDeleted={handleDeleteTodo}
           />
