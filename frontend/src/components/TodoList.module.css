@@ -43,3 +43,15 @@
     }
   }
 }
+
+.complete {
+  --button-color: rgb(31, 188, 36) !important;
+}
+
+.overdue {
+  --button-color: rgb(228, 71, 71) !important;
+}
+
+.pending {
+  --button-color: rgb(231, 192, 37) !important;
+}

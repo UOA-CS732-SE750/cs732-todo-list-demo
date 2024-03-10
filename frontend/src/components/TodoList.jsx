@@ -14,6 +14,11 @@ export default function TodoList({ todos }) {
 function TodoListItem({ todo }) {
   const isOverdue = dayjs().isAfter(todo.dueDate);
   const status = todo.isComplete ? "Complete!" : isOverdue ? "Overdue" : "Pending";
+  const buttonClass = todo.isComplete
+    ? styles.complete
+    : isOverdue
+      ? styles.overdue
+      : styles.pending;
 
   return (
     <li className={styles.item}>
@@ -24,7 +29,7 @@ function TodoListItem({ todo }) {
           <em>({dayjs(todo.dueDate).fromNow()})</em>
         </p>
       </div>
-      <button>{status}</button>
+      <button className={buttonClass}>{status}</button>
       <button>X</button>
     </li>
   );
