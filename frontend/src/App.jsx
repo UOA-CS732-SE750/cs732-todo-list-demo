@@ -2,6 +2,8 @@ import { useState } from "react";
 import { initialTodos } from "./initial-todos";
 import TodoList from "./components/TodoList";
 import styles from "./App.module.css";
+import NewTodoForm from "./components/NewTodoForm";
+import { v4 as uuid } from "uuid";
 
 function App() {
   const [todos, setTodos] = useState(initialTodos);
@@ -22,6 +24,18 @@ function App() {
     setTodos(newTodos);
   }
 
+  function handleNewTodo(description, dueDate) {
+    const newTodo = {
+      _id: uuid(),
+      description,
+      dueDate,
+      isComplete: false
+    };
+
+    const newTodos = [...todos, newTodo];
+    setTodos(newTodos);
+  }
+
   return (
     <>
       <nav className={styles.nav}>
@@ -34,6 +48,8 @@ function App() {
             onTodoClicked={handleTodoClicked}
             onTodoDeleted={handleDeleteTodo}
           />
+
+          <NewTodoForm onSubmit={handleNewTodo} />
         </main>
       </div>
     </>

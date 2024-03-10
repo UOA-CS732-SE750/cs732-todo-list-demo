@@ -25,23 +25,6 @@
   & p {
     color: #565656;
   }
-
-  & button {
-    --button-color: rgb(214, 214, 214);
-    border: 0;
-    background-color: var(--button-color);
-    border-radius: 20px;
-    font-size: 1rem;
-    padding: 5px 0;
-
-    &:hover {
-      background-color: color-mix(in srgb, black 15%, var(--button-color));
-    }
-
-    &:active {
-      background-color: color-mix(in srgb, black 30%, var(--button-color));
-    }
-  }
 }
 
 .complete {
