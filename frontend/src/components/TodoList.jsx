@@ -1,8 +1,9 @@
 import dayjs from "dayjs";
+import styles from "./TodoList.module.css";
 
 export default function TodoList({ todos }) {
   return (
-    <ul>
+    <ul className={styles.list}>
       {todos.map((todo) => (
         <TodoListItem key={todo._id} todo={todo} />
       ))}
@@ -15,7 +16,7 @@ function TodoListItem({ todo }) {
   const status = todo.isComplete ? "Complete!" : isOverdue ? "Overdue" : "Pending";
 
   return (
-    <li>
+    <li className={styles.item}>
       <div>
         <h2>{todo.description}</h2>
         <p>
@@ -23,10 +24,8 @@ function TodoListItem({ todo }) {
           <em>({dayjs(todo.dueDate).fromNow()})</em>
         </p>
       </div>
-      <div>
-        <button>{status}</button>
-        <button>X</button>
-      </div>
+      <button>{status}</button>
+      <button>X</button>
     </li>
   );
 }

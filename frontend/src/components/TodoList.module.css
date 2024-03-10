@@ -1,0 +1,45 @@
+.list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 100px 60px;
+  column-gap: 5px;
+}
+
+.item {
+  grid-column: 1 / 4;
+  display: grid;
+  grid-template-columns: subgrid;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+  align-items: center;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  & h2 {
+    font-size: 14pt;
+  }
+
+  & p {
+    color: #565656;
+  }
+
+  & button {
+    --button-color: rgb(214, 214, 214);
+    border: 0;
+    background-color: var(--button-color);
+    border-radius: 20px;
+    font-size: 1rem;
+    padding: 5px 0;
+
+    &:hover {
+      background-color: color-mix(in srgb, black 15%, var(--button-color));
+    }
+
+    &:active {
+      background-color: color-mix(in srgb, black 30%, var(--button-color));
+    }
+  }
+}
