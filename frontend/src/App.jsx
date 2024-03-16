@@ -1,69 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TodoList from "./components/TodoList";
 import styles from "./App.module.css";
 import NewTodoForm from "./components/NewTodoForm";
-import { v4 as uuid } from "uuid";
 import SearchBar from "./components/SearchBar";
-import axios from "axios";
+import { useTodos } from "./js/use-todos";
 
 function App() {
-  const [todos, setTodos] = useState([]);
+  const { todos, createTodo, updateTodo, deleteTodo } = useTodos();
   const [searchString, setSearchString] = useState("");
-
-  useEffect(() => {
-    axios.get("http://localhost:3000/api/todos").then((response) => setTodos(response.data));
-  }, []);
-
-  function handleUpdateTodo(todo) {
-    const oldTodos = todos;
-    const newTodos = todos.map((oldTodo) => {
-      if (oldTodo !== todo) return oldTodo;
-      return { ...todo, isComplete: !todo.isComplete };
-    });
-
-    setTodos(newTodos);
-
-    axios
-      .patch(`http://localhost:3000/api/todos/${todo._id}`, { isComplete: !todo.isComplete })
-      .catch((err) => {
-        console.log(err);
-        setTodos(oldTodos);
-      });
-  }
-
-  function handleDeleteTodo(todo) {
-    const oldTodos = todos;
-    const newTodos = todos.filter((oldTodo) => oldTodo !== todo);
-    setTodos(newTodos);
-
-    axios.delete(`http://localhost:3000/api/todos/${todo._id}`).catch((err) => {
-      console.log(err);
-      setTodos(oldTodos);
-    });
-  }
-
-  function handleNewTodo(description, dueDate) {
-    const oldTodos = todos;
-    const newTodo = {
-      _id: uuid(),
-      description,
-      dueDate,
-      isComplete: false
-    };
-
-    const newTodos = [...todos, newTodo];
-    setTodos(newTodos);
-
-    axios
-      .post("http://localhost:3000/api/todos", { description, dueDate })
-      .then((response) => {
-        setTodos([...oldTodos, response.data]);
-      })
-      .catch((err) => {
-        console.log(err);
-        setTodos(oldTodos);
-      });
-  }
 
   const filteredTodos = todos.filter(
     (todo) =>
@@ -82,13 +26,9 @@ function App() {
             onSearchStringChanged={(s) => setSearchString(s)}
           />
 
-          <TodoList
-            todos={filteredTodos}
-            onTodoClicked={handleUpdateTodo}
-            onTodoDeleted={handleDeleteTodo}
-          />
+          <TodoList todos={filteredTodos} onTodoClicked={updateTodo} onTodoDeleted={deleteTodo} />
 
-          <NewTodoForm onSubmit={handleNewTodo} />
+          <NewTodoForm onSubmit={createTodo} />
         </main>
       </div>
     </>
