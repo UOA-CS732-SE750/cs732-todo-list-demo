@@ -1,4 +1,6 @@
-const todos = [
+import { v4 as uuid } from "uuid";
+
+let todos = [
   {
     _id: "3e4876d2-3f87-486f-8f8e-46b2120c7493",
     description: "Teach my cat to play chess",
@@ -31,6 +33,34 @@ const todos = [
   }
 ];
 
+/**
+ * Gets an array of all todo items.
+ *
+ * @returns all todo items
+ */
 export async function retrieveTodos() {
   return todos;
+}
+
+export async function createTodo(description, dueDate) {
+  const newTodo = {
+    _id: uuid(),
+    description,
+    dueDate,
+    isComplete: false
+  };
+
+  todos.push(newTodo);
+  return newTodo;
+}
+
+export async function updateTodo(id, isComplete) {
+  const todo = todos.find((todo) => todo._id === id);
+  if (!todo) return false;
+  todo.isComplete = isComplete;
+  return true;
+}
+
+export async function deleteTodo(id) {
+  todos = todos.filter((todo) => todo._id !== id);
 }
