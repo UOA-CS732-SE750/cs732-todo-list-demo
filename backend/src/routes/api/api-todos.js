@@ -9,16 +9,24 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { description, dueDate } = req.body;
-  const todo = await createTodo(description, dueDate);
-  return res.status(201).location(`/api/todos/${todo._id}`).json(todo);
+  try {
+    const { description, dueDate } = req.body;
+    const todo = await createTodo(description, dueDate);
+    return res.status(201).location(`/api/todos/${todo._id}`).json(todo);
+  } catch (err) {
+    return res.status(422).json(err);
+  }
 });
 
 router.patch("/:id", async (req, res) => {
-  const { isComplete } = req.body;
-  const { id } = req.params;
-  const updated = await updateTodo(id, isComplete);
-  return res.sendStatus(updated ? 204 : 404);
+  try {
+    const { isComplete } = req.body;
+    const { id } = req.params;
+    const updated = await updateTodo(id, isComplete);
+    return res.sendStatus(updated ? 204 : 404);
+  } catch (err) {
+    return res.status(422).json(err);
+  }
 });
 
 router.delete("/:id", async (req, res) => {

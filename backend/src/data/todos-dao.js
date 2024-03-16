@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { v4 as uuid } from "uuid";
 
 let todos = [
@@ -43,6 +44,9 @@ export async function retrieveTodos() {
 }
 
 export async function createTodo(description, dueDate) {
+  if (!description || !dueDate) throw "description and dueDate are required";
+  if (!dayjs(dueDate).isValid()) throw "dueDate is not a valid date";
+
   const newTodo = {
     _id: uuid(),
     description,
@@ -55,6 +59,8 @@ export async function createTodo(description, dueDate) {
 }
 
 export async function updateTodo(id, isComplete) {
+  if (typeof isComplete !== "boolean") throw "isComplete must be true or false";
+
   const todo = todos.find((todo) => todo._id === id);
   if (!todo) return false;
   todo.isComplete = isComplete;
